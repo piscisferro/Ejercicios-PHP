@@ -10,14 +10,10 @@ Realiza un programa que resuelva una ecuación de segundo grado (del tipo ax2 + 
     </head>
     <body>
         
-        <h3>Este Programa soluciona ecuaciones de segundo grado del tipo ax^2 + bx + c = 0</h3>
+        <h3>Este Programa soluciona ecuaciones de segundo gradoax^2 + bx + c = 0</h3>
         <form action="index.php" method="post">
-            Introduce a:
-            <br><input type="number" name="a"><br>
-            Introduce b: 
-            <br><input type="number" name="b"><br>
-            Introduce c: 
-            <br><input type="number" name="c"><br>
+            <input type="text" name="a" size="3">x<sup>2</sup> + <input type="text" name="b" size="3">x
+            + <input type="text" name="c" size="3"> = 0
             <input type="submit" value="Calcular">
         </form>
         
@@ -30,16 +26,14 @@ Realiza un programa que resuelva una ecuación de segundo grado (del tipo ax2 + 
             $b = $_POST['b'];
             $c = $_POST['c'];
             
-            $resultado1 = (-$b + sqrt(($b*$b) - (4*$a*$c))) / (2*$a);
-            $resultado2 = (-$b - sqrt(($b*$b) - (4*$a*$c))) / (2*$a);
+            $resultado1 = ((0-$b) + (sqrt(($b*$b) - (4*$a*$c)))) / (2*$a);
+            $resultado2 = ((0-$b) - (sqrt(($b*$b) - (4*$a*$c)))) / (2*$a);
             
             if (!is_nan($resultado1) && !is_nan($resultado2)) {
                 echo "Los resultados de x son: <br> resultado 1 = ", $resultado1;
                 echo "<br> resultado 2 = ", $resultado2;
             } else {
-                
                 echo "no tiene solucion";
-                
             }
             
             

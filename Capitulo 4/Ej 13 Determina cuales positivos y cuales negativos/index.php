@@ -14,11 +14,14 @@ son negativos.
         <h3>Introduce 10 numeros y te dira cuantos son positivos y cuantos negativos</h3>
         <?php
         
+        // Si le ha dado a submit
         if (isset($_POST['submit'])) {
          
+            // Inicializamos los contadores de positivos y negativos
             $contadorNegativo = 0;
             $contadorPositivo = 0;
             
+            // Bucle para contar los numeros y determinar si son positivos o negativos
             for ($i = 0; $i < 10; $i++) {
                 
                 if ($_POST["numero$i"] >= 0) {
@@ -32,11 +35,10 @@ son negativos.
                 }  
             }
             
+            // Imprimimos en HTML el numero de positivos y negativos.
             echo 'Hay ', $contadorPositivo ,' numeros positivos y ', $contadorNegativo , ' negativos';
             
         } else { 
-            
-            
             
             ///////////
             // Inicializa formulario la primera vez que entramos

@@ -15,16 +15,26 @@ terminado de introducir los datos cuando meta un número negativo.
         
         <?php
         
+        
+        // Si no es la primera vez que entramos
+        // O lo que es lo mismo, si han mandado submit
         if (isset($_POST['submit'])) {
          
+            // Cogemos el numero
             $numero = $_POST['numero'];
+            // Cogemos el valor hidden Total
             $total = $_POST['total'];
+            
+            // Cogemos el valor hidden del contador
             $contadornumero = $_POST['contador'];
             
+            // Si el numero es negativo
             if ($numero < 0) {
                 
+                // Hacemos la media
                 $media = $total / $contadornumero;
                 
+                // Lo mostramos por pantalla
                 echo 'El total es: ', $total;
                 echo '<br>El numero de numeros introducidos es: ', $contadornumero;
                 echo '<br>La media es: ', $media;
@@ -33,9 +43,11 @@ terminado de introducir los datos cuando meta un número negativo.
                 
             } else {
                 
+                // Si el numero es mayor a 0 lo añadimos al total y sumamos al contador
                 $total += $numero;
                 $contadornumero++;
                 
+                // Imprimimos el formulario
                 echo '<form action="index.php" method="post">';
                 echo '<input type="number" name="numero" placeholder="numero" autofocus>';
                 echo '<input type="hidden" name="contador" value="', $contadornumero,'">';
@@ -47,6 +59,7 @@ terminado de introducir los datos cuando meta un número negativo.
             
         } else { 
             
+            // Inicializamos variables
             $contadornumero = 0;
             $total = 0;
             

@@ -5,6 +5,8 @@ Carga el array “numero” con valores aleatorios entre 0 y 100. En el array �
 almacenar los cuadrados de los valores que hay en el array “numero”. En el array “cubo” se deben
 almacenar los cubos de los valores que hay en “numero”. A continuación, muestra el contenido de
 los tres arrays dispuesto en tres columnas.
+
+Creado por Juan Jose Fernandez Romero
 -->
 <html>
     <head>

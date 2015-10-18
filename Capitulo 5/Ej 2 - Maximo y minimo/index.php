@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+Escribe un programa que pida 10 números por teclado y que luego muestre los números introducidos
+junto con las palabras “máximo” y “mínimo” al lado del máximo y del mínimo respectivamente.
+
+Creado por Juan Jose Fernandez Romero
 -->
 <html>
     <head>

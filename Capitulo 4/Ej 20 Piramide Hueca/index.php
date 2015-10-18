@@ -2,6 +2,8 @@
 <!--
 Ejercicio 20
 Igual que el ejercicio anterior pero esta vez se debe pintar una pirámide hueca.
+
+Creado por Juan Jose Fernandez Romero
 -->
 <html>
     <head>

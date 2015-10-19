@@ -82,6 +82,10 @@ Creado por Juan Jose Fernandez Romero
         </style>
     </head>
     <body>
+        
+        <h3>Crea un diagrama dependiendo de la Temperatura</h3>
+        <p>Introduce la media de temperatura de cada mes</p>
+        
         <form action="index.php" method="post">
           <span><span class="mes">Enero: </span><input type="number" name="mes1" placeholder="0" max="999" autofocus>ºC</span>
           <span><span class="mes">Febrero: </span><input type="number" name="mes2" max="999" placeholder="0">ºC</span><br>

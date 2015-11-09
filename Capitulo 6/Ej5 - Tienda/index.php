@@ -61,13 +61,13 @@ carrito de la compra. A continuación se muestra una captura de pantalla de una 
     }
     
     // Inicializamos nuestro catalogo
-    $catalogo = [["codigo" => "boli1", "precio" => 2.00, "imagen" => "boli1.jpg"], 
-        ["codigo" => "boli2", "precio" => 3.00, "imagen" => "boli2.jpg"],
-        ["codigo" => "boli3", "precio" => 1.50, "imagen" => "boli3.jpg"],
-        ["codigo" => "boli4", "precio" => 2.75, "imagen" => "boli4.jpg"],
-        ["codigo" => "boli5", "precio" => 3.75, "imagen" => "boli5.jpg"],
-        ["codigo" => "boli6", "precio" => 5.50, "imagen" => "boli6.jpg"],
-        ["codigo" => "boli7", "precio" => 2.25, "imagen" => "boli7.jpg"], 
+    $catalogo = [["codigo" => "pluma1", "precio" => 2.00, "imagen" => "pluma1.jpg"], 
+        ["codigo" => "pluma2", "precio" => 3.00, "imagen" => "pluma2.jpg"],
+        ["codigo" => "pluma3", "precio" => 1.50, "imagen" => "pluma3.jpg"],
+        ["codigo" => "pluma4", "precio" => 2.75, "imagen" => "pluma4.jpg"],
+        ["codigo" => "pluma5", "precio" => 3.75, "imagen" => "pluma5.jpg"],
+        ["codigo" => "pluma6", "precio" => 5.50, "imagen" => "pluma6.jpg"],
+        ["codigo" => "pluma7", "precio" => 2.25, "imagen" => "pluma7.jpg"], 
     ];
     ?>
     
@@ -78,7 +78,6 @@ carrito de la compra. A continuación se muestra una captura de pantalla de una 
         // Si no estamos logueado aparecera la pantalla de logueo
          // Si no se esta logueado saldra el formulario para loguearse
         if ($_SESSION['logueado'] == false) {
-            
             // Si es la primera vez que entramos
             if (!isset($_POST['submit'])) {
                 
@@ -134,6 +133,11 @@ carrito de la compra. A continuación se muestra una captura de pantalla de una 
                         <input type="hidden" name="codigo" value="<?=$producto["codigo"]?>">
                         <input type="submit" name="submit" value="Comprar">
                     </form>
+                    <!-- Formulario boton detalle -->
+                    <form action="detalle.php" method="post">
+                        <input type="hidden" name="codigo" value="<?=$producto["codigo"]?>">
+                        <input type="submit" name="submit" value="Detalle">
+                    </form>  
                 </div>
                 <?php
                 
@@ -189,7 +193,6 @@ carrito de la compra. A continuación se muestra una captura de pantalla de una 
                 // For each para mostrar el carrito, explicacion: Este foreach recorre
                 // el array del catalogo (como el de la tienda)
                 foreach ($catalogo as $producto) {
-                    
                     // Si el codigo del $producto actual en el array sesiones (el que inicializamos
                     // en el foreach de la tienda) es mayor a 0 pintamos el HTML
                     if ($_SESSION["carrito"][$producto["codigo"]] > 0) {

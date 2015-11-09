@@ -69,7 +69,7 @@ if (!isset($_SESSION['contador'])) {
                 echo 'Total acumulado ', $_SESSION['total'], '<br>';
                 
                 // Mostramos la media.
-                echo 'La media de los numeros introducidos: ', ($_SESSION['total'] / $_SESSION['contador']); 
+                echo 'La media de los numeros introducidos: ', round(($_SESSION['total'] / $_SESSION['contador']), 2); 
                 
                 // Destruimos la sesion.
                 session_destroy();

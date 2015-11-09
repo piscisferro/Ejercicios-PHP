@@ -183,7 +183,6 @@ carrito de la compra. A continuación se muestra una captura de pantalla de una 
             <!-- Parte de Carrito -->
             <div id="carrito">
                 <h2>Carrito</h2>
-                
                 <div id="total">Total = <?=$_SESSION['total']?>€</div>
                 <?php
                 
@@ -212,12 +211,8 @@ carrito de la compra. A continuación se muestra una captura de pantalla de una 
                 </div>
                         <?php
                     } //Fin del if
-                    
                 } // Fin del Foreach
-                
-                ?>
-                
-                
+                ?> 
             </div>
             <?php
         } // Fin de la web/tienda

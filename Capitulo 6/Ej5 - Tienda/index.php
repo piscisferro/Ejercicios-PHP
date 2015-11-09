@@ -55,6 +55,11 @@ carrito de la compra. A continuación se muestra una captura de pantalla de una 
         $_SESSION['logueado'] = false;
     }
     
+    // Inicializamos total
+    if (!isset($_SESSION['total'])) {
+        $_SESSION['total'] = 0;
+    }
+    
     // Inicializamos nuestro catalogo
     $catalogo = [["codigo" => "boli1", "precio" => 2.00, "imagen" => "boli1.jpg"], 
         ["codigo" => "boli2", "precio" => 3.00, "imagen" => "boli2.jpg"],
@@ -146,6 +151,15 @@ carrito de la compra. A continuación se muestra una captura de pantalla de una 
                 // Recogemos el codigo que se manda en su campo hidden e incrementamos
                 // el valor asociado a ese codigo en el array
                 $_SESSION["carrito"][$_POST["codigo"]]++;
+                
+                // Comparamos el codigo con todo lo introducido
+                foreach ($catalogo as $producto) {
+                    // Si el codigo es igual a algo del catalogo
+                    if ($producto['codigo'] == $_POST['codigo']) {
+                        // Restamos el precio al total
+                        $_SESSION['total']+= $producto['precio'];
+                    }
+                }
             }
             
             // Si hemos apretado algun boton de borrar
@@ -153,6 +167,15 @@ carrito de la compra. A continuación se muestra una captura de pantalla de una 
                 // Recogemos el codigo de su campo hidden y decrementamos
                 // el valor asociado a ese codigo en el array
                 $_SESSION["carrito"][$_POST["borrar"]]--;
+                
+                // Comparamos el codigo con todo lo introducido
+                foreach ($catalogo as $producto) {
+                    // Si el codigo es igual a algo del catalogo
+                    if ($producto['codigo'] == $_POST['borrar']) {
+                        // Restamos el precio al total
+                        $_SESSION['total']-= $producto['precio'];
+                    }
+                }
             }
             
             echo '</div>';
@@ -189,6 +212,8 @@ carrito de la compra. A continuación se muestra una captura de pantalla de una 
                 } // Fin del Foreach
                 
                 ?>
+                <div>Total = <?=$_SESSION['total']?>€</div>
+                
             </div>
             <?php
         } // Fin de la web/tienda

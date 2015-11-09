@@ -76,8 +76,6 @@ if (!isset($_SESSION['contador'])) {
                 
             }  
         }
-        
-        
         ?>
     </body>
 </html>

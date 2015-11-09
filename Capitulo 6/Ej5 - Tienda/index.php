@@ -183,6 +183,8 @@ carrito de la compra. A continuación se muestra una captura de pantalla de una 
             <!-- Parte de Carrito -->
             <div id="carrito">
                 <h2>Carrito</h2>
+                
+                <div id="total">Total = <?=$_SESSION['total']?>€</div>
                 <?php
                 
                 // For each para mostrar el carrito, explicacion: Este foreach recorre
@@ -196,9 +198,11 @@ carrito de la compra. A continuación se muestra una captura de pantalla de una 
                         ?> 
                 <!-- Producto en carrito -->
                 <div class="producto">
+                    <img src="img/<?=$producto["imagen"]?>">
                     <p>Nombre: <?=$producto["codigo"]?></p>
                     <p>Cantidad: <?=$_SESSION["carrito"][$producto["codigo"]]?></p>
                     <p>Precio: <?=$producto["precio"] * $_SESSION["carrito"][$producto["codigo"]]?>€</p>
+                    
                     
                     <!-- Formulario para el boton borrar -->
                     <form action="index.php" method="post">
@@ -212,7 +216,7 @@ carrito de la compra. A continuación se muestra una captura de pantalla de una 
                 } // Fin del Foreach
                 
                 ?>
-                <div>Total = <?=$_SESSION['total']?>€</div>
+                
                 
             </div>
             <?php

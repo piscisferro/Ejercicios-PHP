@@ -1,12 +1,13 @@
 <?php
     // Si enviamos el formulario
     if (isset($_REQUEST["fondo"])) {
-        // Recogemos fondo del formulario
+        // Recogemos fondo del formularioy  lo metemos en una variavle
         $color = $_REQUEST["fondo"];
         // Creamos la cookie y le damos el valor de color
         setcookie("fondo", $color, time() + 3*24*3600);
-        // Refrescamo la pagina para que se aplique el fondo.
-        header("Location: index.php");
+    } else { // Si no hemos mandado color por formulario
+        // Asignamos a la variable de color el valor de la cookie
+        $color = $_COOKIE["fondo"];
     }
     
 ?>
@@ -24,14 +25,15 @@ una página. Esta página debe tener únicamente algo de texto y un formulario p
         <style>
             
             body {
-                background-color: <?=$_COOKIE["fondo"]?>;
+                /* Cogemos el color de la variable que se inicializa al principio */
+                background-color: <?=$color?>;
             }
             
         </style>
         
     </head>
     <body>
-        <form action="index.php" mehtod="post">
+        <form action="index.php" method="post">
             <input type="color" name="fondo"><br>
             <input type="submit" name="submit" value="Cambiar">
         </form>

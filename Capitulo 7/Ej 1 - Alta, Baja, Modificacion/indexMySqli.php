@@ -56,6 +56,12 @@ Create By Juan Jose Fernandez Romero
                 
             }
             
+            input {
+                
+                text-align: center;
+                
+            }
+            
             tr:nth-child(odd) {
                 
                 background-color: lightgrey;
@@ -67,22 +73,24 @@ Create By Juan Jose Fernandez Romero
                 background-color: lightblue;
                 
             }
-            
-            
         </style>
         
     </head>
     <body>
         <?php
-        $conexion = mysql_connect("localhost", "root", "");
+        // Conectamos a la base de datos
+        $conexion = new mysqli("localhost", "root", "");
         
-        if (!$conexion)
-            echo "Error al conectar a la base de datos";
+        // Si no conectamos mandamos un mensaje de error
+        if ($conexion->connect_errno > 0) {
+            echo "Error al conectar a la base de datos ";
+            die ("Error: " . $conexion->connect_error);
+        }
         
-        mysql_select_db("banco", $conexion);
-        mysql_set_charset('utf8');
-        
-        $consulta = mysql_query('SELECT * FROM cliente', $conexion);
+        // Seleccionamos la base de datos, en este caso banco
+        $conexion->select_db('banco');
+        // Cambiamos el formato a utf8
+        $conexion->set_charset('utf8');
         ?>
         
         <table>
@@ -96,7 +104,7 @@ Create By Juan Jose Fernandez Romero
             
             <!-- Fila para añadir una nueva entrada -->
             <tr>
-                <form action="indexMySql.php" method="post">
+                <form action="indexMySqli.php" method="post">
                     <td><input type="text" name="dni" placeholder="DNI" autofocus></td>
                     <td><input type="text" name="nombre" placeholder="Nombre"></td>
                     <td><input type="text" name="direccion" placeholder="Direccion"></td>
@@ -107,16 +115,22 @@ Create By Juan Jose Fernandez Romero
             
             <?php 
             
+            // Consulta sql select all
+            $consulta = $conexion->query('SELECT * FROM cliente');
+            
+            // Si damos al boton Crear, lanzamos la funcion de alta
             if (isset($_POST["crear"])) {
-                alta();
+                alta($conexion);
             }
             
+            // Si damos a algun boton modificar, lanzamos la funcion update
             if (isset($_POST['update'])) {
-                update();
+                update($conexion);
             }
             
+            // Si damos a algun boton borrar, lanzamos la funcion borrar
             if (isset($_POST["borrar"])) {
-                borrar();
+                borrar($conexion);
             }
             
             // Listado de clientes del banco 
@@ -128,83 +142,101 @@ Create By Juan Jose Fernandez Romero
     </body>
     
     <?php 
-    
+        // Funcion listado. Esta funcion muestra en formato tabla todas las filas de la tabla clientes
+        // por parametro pasamos la sentencia SQL   
         function listado ($sentencia) {
-            while ($registro = mysql_fetch_array($sentencia)) {
+            // Mientras haya registros en la tabla
+            while ($registro = $sentencia->fetch_object()) {
 
-                $botonBorrado = '<form action="indexMySql.php" method="post">'
-                  . '<input type="hidden" name="dni" value="' . $registro['dni'] . '">'
+                // Boton borrado, en HTML
+                $botonBorrado = '<form action="indexMySqli.php" method="post">'
+                  . '<input type="hidden" name="dni" value="' . $registro->dni . '">'
                   . '<input type="submit" name="borrar" value="Borrar"></form>';
 
-                $botonModificar = '<form action="indexMySql.php" method="post">'
-                  . '<input type="hidden" name="dni" value="' . $registro['dni'] . '">'
+                // Boton modificar, en HTML
+                $botonModificar = '<form action="indexMySqli.php" method="post">'
+                  . '<input type="hidden" name="dni" value="' . $registro->dni . '">'
                   . '<input type="submit" name="modificar" value="Modificar"></form>';
                 
                 
-                
-                if (isset($_POST['modificar']) && $registro['dni'] == $_POST['dni']) {
+                // Si hemos dado al boton modificar pondremos la linea correspondiente al dni como formulario
+                if (isset($_POST['modificar']) && $registro->dni == $_POST['dni']) {
                     
-                    echo '<tr><form action="indexMySql.php" method="post">';
-                    echo '<td><input type="text" name="dni" placeholder="DNI" autofocus></td>';
-                    echo '<td><input type="text" name="nombre" placeholder="Nombre"></td>';
-                    echo '<td><input type="text" name="direccion" placeholder="Direccion"></td>';
-                    echo '<td><input type="number" name="telefono" placeholder="Telefono" min="0" max="999999999"></td>';
-                    echo '<td><input type="hidden" name="dniActual" value="'.$registro['dni'].'">'
-                    . '<input type="submit" name="update" value="Modificar"></td>';
+                    // Formulario en formato tabla
+                    echo '<tr><form action="indexMySqli.php" method="post">';
+                    echo '<td><input type="text" name="dni" placeholder="' . $registro->dni . '" autofocus></td>';
+                    echo '<td><input type="text" name="nombre" placeholder="' . $registro->nombre . '"></td>';
+                    echo '<td><input type="text" name="direccion" placeholder="' . $registro->direccion . '"></td>';
+                    echo '<td><input type="number" name="telefono" placeholder="' . $registro->telefono . '" min="0" max="999999999"></td>';
+                    echo '<td><input type="hidden" name="dniActual" value="'.$registro->dni.'">'
+                    . '<input type="submit" name="update" value="Modificar"><input type="submit" name="" value="Cancelar"></td>';
                     echo '</form></tr>';
                     
-                } else {
+                } else { // Listado normal. 
                     echo '<tr>';
-                    echo '<td>' . $registro['dni'] . '</td>';
-                    echo '<td>' . $registro['nombre'] . '</td>';
-                    echo '<td>' . $registro['direccion'] . '</td>';
-                    echo '<td>' . $registro['telefono'] . '</td>';
+                    echo '<td>' . $registro->dni . '</td>';
+                    echo '<td>' . $registro->nombre . '</td>';
+                    echo '<td>' . $registro->direccion . '</td>';
+                    echo '<td>' . $registro->telefono . '</td>';
                     echo '<td>' . $botonBorrado . $botonModificar . '</td>';
                     echo '</tr>';
                 }
             }
         }
         
-        function alta () {
+        // Funcion alta, aqui damos de alta nuevas entradas para la base de datos
+        function alta ($conexion) {
             
+            // Recogemos los datos del formulario
             $dni = $_POST["dni"];
             $nombre = $_POST["nombre"];
             $direccion = $_POST["direccion"];
             $telefono = $_POST["telefono"];
             
+            // Creamos una variable con la consulta insert
             $insert = "INSERT INTO cliente (dni, nombre, direccion, telefono)"
               . "VALUES ('$dni', '$nombre', '$direccion', '$telefono')";
             
-            mysql_query($insert);
+            // La ejecutamos en el servidor
+            $conexion->query($insert);
             
+            // Refrescamos la pagina para actualizar la informacion.
             header("refresh: 0;");
         }
         
-        function borrar() {
+        function borrar($conexion) {
             
+            // Recogemos el codigo dni del formulario
             $borrar = $_POST['dni'];
             
+            // Creamos una variable con la consulta delete para borrar la fila 
             $delete = "DELETE FROM cliente WHERE dni='$borrar'";
             
-            mysql_query($delete);
+            // La ejecutamos en el servidor
+            $conexion->query($delete);
             
+            // Refrescamos la pagina para actualizar la informacion.
             header("refresh: 0;");
             
         }
         
-        function update() {
+        function update($conexion) {
             
-            $dniActual = $_POST['dniActual'];
+            // Recogemos los datos del formulario
+            $dniActual = $_POST['dniActual']; // Este hace falta para buscar el registro en la BD
             $dni = $_POST["dni"];
             $nombre = $_POST["nombre"];
             $direccion = $_POST["direccion"];
             $telefono = $_POST["telefono"];
             
+            // Creamos una variable con la consulta update para modificar la fila
             $update = "UPDATE cliente SET dni='$dni', nombre='$nombre', direccion='$direccion',"
               . "telefono=$telefono WHERE dni='$dniActual'";
             
-            mysql_query($update);
+            // La ejecutamos en el servidor
+            $conexion->query($update);
             
+            // Refrescamos la pagina para actualizar la informacion.
             header("refresh: 0;");
             
         }

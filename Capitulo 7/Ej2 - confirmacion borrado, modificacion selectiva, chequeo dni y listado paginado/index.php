@@ -12,20 +12,26 @@ cambiado deberán permanecer inalterados en la base de datos.
 Create By Juan Jose Fernandez Romero
 -->
 <?php 
+// Al parecer el headerÇ(refresh: 0) suele dar muchos problemas, esta funcion
+// ayuda a que no de problemas.
+ob_start();
 
+// Empezamos la sesion
 session_start();
 
+// Si es la primera vez que entramos
 if (!isset($_SESSION['pagina'])) {
+    // Ponemos pagina en sesion a 0
     $_SESSION['pagina'] = 0;
 }
 
+// Si orden no esta inicializada
 if (!isset($_SESSION['orden'])) {
+    // La inicializamos para asi que se ordene en funcion del dni
     $_SESSION['orden'] = "dni";
 }
 
 ?>
-
-
 <html>
     <head>
         <meta charset="UTF-8">
@@ -172,19 +178,18 @@ if (!isset($_SESSION['orden'])) {
                     <td><input type="submit" name="crear" value="Crear"></td>
                 </form>
             </tr>
-            <?php 
+            <?php
+            // Funcion que lanza el manejo de paginas
+            paginas($conexion);
+            
+            // Offset para el Limit de la consulta SQL
+            $offset = ($_SESSION['pagina'] * 5);
             
             // Si damos a algun ordenar
             if (isset($_POST['ordena'])) {
                 // Lanzamos la funcion ordena
                 ordena();
             }
-            
-            // Funcion que lanza el manejo de paginas
-            paginas($conexion);
-            
-            // Offset para el Limit de la consulta SQL
-            $offset = ($_SESSION['pagina'] * 5);
             
             // Consulta sql select all con el Limit para limitar cuantas filas se devolvera y el offset
             // para saber desde que fila empieza a contar.
@@ -210,6 +215,9 @@ if (!isset($_SESSION['orden'])) {
             
             // Listado de clientes del banco 
             listado($consulta);
+            
+            // Al parecer esto ayuda a que el header no de problemas.
+            ob_end_flush();
             ?>
             <tr>
                 <td colspan="5" class="botones">
@@ -224,7 +232,7 @@ if (!isset($_SESSION['orden'])) {
         </table>
     </body>
 </html>
-
+    
 <?php 
     /////////////////////////////////////////////////////////////////////
     ///////////////////////// Funcion Paginas ///////////////////////////
@@ -256,7 +264,7 @@ if (!isset($_SESSION['orden'])) {
         if (isset($_POST['avPagina'])) {
             // Si la sesion es menor que el numero maximo de filas partido por Limit
             // 5 en este caso menos 1 (porque session pagina empieza en 0, no en 1)
-            if ($_SESSION['pagina'] < (floor($numeroFilas/5) - 1)) {
+            if ($_SESSION['pagina'] < (ceil($numeroFilas/5) - 1)) {
                 // Incrementamos el contador de pagina
                 $_SESSION['pagina']++;
             }
@@ -266,7 +274,7 @@ if (!isset($_SESSION['orden'])) {
         if (isset($_POST['ultimaPagina'])) {
             // Nos vamos a la pagina numero filas / LIMIT (5 en este caso) 
             // menos 1 (porque session pagina empieza en 0, no en 1)
-            $_SESSION['pagina'] = (floor($numeroFilas/5) - 1);
+            $_SESSION['pagina'] = (ceil($numeroFilas/5) - 1);
         }
     }
     
@@ -277,6 +285,7 @@ if (!isset($_SESSION['orden'])) {
     // Nombre, Direccion y Telefono
     function ordena() {
         
+        // Guarda en sesion el tipod e ordenamiento
         $_SESSION['orden'] = $_POST['ordena'];
         
     }
@@ -324,8 +333,7 @@ if (!isset($_SESSION['orden'])) {
                 echo '<td><input type="text" name="nombre" placeholder="' . $registro->nombre . '"></td>';
                 echo '<td><input type="text" name="direccion" placeholder="' . $registro->direccion . '"></td>';
                 echo '<td><input type="number" name="telefono" placeholder="' . $registro->telefono . '" min="0" max="999999999"></td>';
-                echo '<td><input type="hidden" name="dniActual" value="'.$registro->dni.'">'
-                . '<input type="submit" name="update" value="Modificar"><input type="submit" name="" value="Cancelar"></td>';
+                echo '<td><input type="submit" name="update" value="Modificar"><input type="submit" name="" value="Cancelar"></td>';
                 echo '</form></tr>';
 
             } else if (isset($_POST['borrar']) && $registro->dni == $_POST['dni']) { 
@@ -383,7 +391,7 @@ if (!isset($_SESSION['orden'])) {
             $conexion->exec($insert);
 
             // Refrescamos la pagina para actualizar la informacion.
-            header("refresh: 0;");
+            header("Refresh: 0");
         }
     }
 
@@ -405,7 +413,7 @@ if (!isset($_SESSION['orden'])) {
         $conexion->exec($delete);
 
         // Refrescamos la pagina para actualizar la informacion.
-        header("refresh: 0;");
+        header("Refresh: 0");
 
     }
 
@@ -417,14 +425,14 @@ if (!isset($_SESSION['orden'])) {
     function update($conexion) {
 
         // Recogemos los datos del formulario
-        $dniActual = $_POST['dniActual']; // Este hace falta para buscar el registro en la BD
+        $dniActual = $_SESSION['dni']; // Este hace falta para buscar el registro en la BD
 
 
         // Si se ha introducido el dni
         if (isset($_POST["dni"]) && $_POST['dni'] != "") {
 
             // Guardamos el dni en una variable
-            $dni = $_POST["dni"];
+            $dni['dni'] = $_POST["dni"];
 
             // Consulta para comprobar si el DNI existe
             $comprobacion = $conexion->query("SELECT dni FROM cliente WHERE dni='$dni'");
@@ -440,58 +448,49 @@ if (!isset($_SESSION['orden'])) {
                 $_POST['modificar'] = "Modificar";
                 $_POST['dni'] = $dniActual;
 
+                // Return para salir de la funcion
                 return;
 
-            } else {
-
-                // Creamos la sentencia SQL
-                $update = "UPDATE cliente SET dni='$dni' WHERE dni='$dniActual'";
-
-                // La ejecutamos en el servidor
-                $conexion->exec($update);
+            } else { // Si el dni no existe.
+                
+                // Guardamos el dni en sesion
+                $_SESSION['dni'] = $dni;
             }
         }
 
         // Si se ha introducido el nombre
         if (isset($_POST['nombre']) && $_POST['nombre'] != "") {
 
-            // Guardamos en una variable el nombre
-            $nombre = $_POST['nombre'];
-
-            // Creamos la sentencia SQL
-            $update = "UPDATE cliente SET nombre='$nombre' WHERE dni='$dniActual'";
-
-            // La ejecutamos en el servidor
-            $conexion->exec($update);
+            // Guardamos en sesion el nombre
+            $_SESSION['nombre'] = $_POST['nombre'];
         }
 
         // Si se ha introducido la direccion
         if (isset($_POST['direccion']) && $_POST['direccion'] != "") {
 
-            // Guardamos en una variable la direccion
-            $direccion = $_POST['direccion'];
-
-            // Creamos la sentencia SQL
-            $update = "UPDATE cliente SET direccion='$direccion' WHERE dni='$dniActual'";
-
-            // La ejecutamos en el servidor
-            $conexion->exec($update);
+            // Guardamos en sesion la direccion
+            $_SESSION['direccion'] = $_POST['direccion'];
         }
 
         // Si se ha introducido el telefono
         if (isset($_POST['telefono']) && $_POST['telefono'] != "") {
 
-            // Guardamos en una variable el telefono
-            $telefono = $_POST['telefono'];
-
-            // Creamos la sentencia SQL
-            $update = "UPDATE cliente SET telefono='$telefono' WHERE dni='$dniActual'";
-
-            // La ejecutamos en el servidor
-            $conexion->exec($update);
+            // Guardamos en sesion el telefono
+            $_SESSION['telefono'] = $_POST['telefono'];
         } 
+        
+        // String $update con la sentencia SQL 
+        $update = "UPDATE cliente SET ";
+        $update .= "dni = '" . $_SESSION['dni']. "', ";
+        $update .= "nombre = '" . $_SESSION['nombre']. "', ";
+        $update .= "direccion = '" . $_SESSION['direccion'] . "', ";
+        $update .= "telefono = '" . $_SESSION['telefono'] . "'";
+        $update .= " WHERE dni='$dniActual'";
+        
+        // Ejecutamos la sentencia SQL
+        $conexion->exec($update);
 
         // Refrescamos la pagina para actualizar la informacion.
-        header("refresh: 0;");
+        header("Refresh: 0");
     }
-?>
+    ?>

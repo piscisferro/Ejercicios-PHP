@@ -324,8 +324,7 @@ if (!isset($_SESSION['orden'])) {
                 echo '<td><input type="text" name="nombre" placeholder="' . $registro->nombre . '"></td>';
                 echo '<td><input type="text" name="direccion" placeholder="' . $registro->direccion . '"></td>';
                 echo '<td><input type="number" name="telefono" placeholder="' . $registro->telefono . '" min="0" max="999999999"></td>';
-                echo '<td><input type="hidden" name="dniActual" value="'.$registro->dni.'">'
-                . '<input type="submit" name="update" value="Modificar"><input type="submit" name="" value="Cancelar"></td>';
+                echo '<td><input type="submit" name="update" value="Modificar"><input type="submit" name="" value="Cancelar"></td>';
                 echo '</form></tr>';
 
             } else if (isset($_POST['borrar']) && $registro->dni == $_POST['dni']) { 
@@ -417,14 +416,14 @@ if (!isset($_SESSION['orden'])) {
     function update($conexion) {
 
         // Recogemos los datos del formulario
-        $dniActual = $_POST['dniActual']; // Este hace falta para buscar el registro en la BD
+        $dniActual = $_SESSION['dni']; // Este hace falta para buscar el registro en la BD
 
 
         // Si se ha introducido el dni
         if (isset($_POST["dni"]) && $_POST['dni'] != "") {
 
             // Guardamos el dni en una variable
-            $dni = $_POST["dni"];
+            $dni['dni'] = $_POST["dni"];
 
             // Consulta para comprobar si el DNI existe
             $comprobacion = $conexion->query("SELECT dni FROM cliente WHERE dni='$dni'");
@@ -443,12 +442,8 @@ if (!isset($_SESSION['orden'])) {
                 return;
 
             } else {
-
-                // Creamos la sentencia SQL
-                $update = "UPDATE cliente SET dni='$dni' WHERE dni='$dniActual'";
-
-                // La ejecutamos en el servidor
-                $conexion->exec($update);
+                
+                $_SESSION['dni'] = $dni;
             }
         }
 
@@ -456,40 +451,31 @@ if (!isset($_SESSION['orden'])) {
         if (isset($_POST['nombre']) && $_POST['nombre'] != "") {
 
             // Guardamos en una variable el nombre
-            $nombre = $_POST['nombre'];
-
-            // Creamos la sentencia SQL
-            $update = "UPDATE cliente SET nombre='$nombre' WHERE dni='$dniActual'";
-
-            // La ejecutamos en el servidor
-            $conexion->exec($update);
+            $_SESSION['nombre'] = $_POST['nombre'];
         }
 
         // Si se ha introducido la direccion
         if (isset($_POST['direccion']) && $_POST['direccion'] != "") {
 
             // Guardamos en una variable la direccion
-            $direccion = $_POST['direccion'];
-
-            // Creamos la sentencia SQL
-            $update = "UPDATE cliente SET direccion='$direccion' WHERE dni='$dniActual'";
-
-            // La ejecutamos en el servidor
-            $conexion->exec($update);
+            $_SESSION['direccion'] = $_POST['direccion'];
         }
 
         // Si se ha introducido el telefono
         if (isset($_POST['telefono']) && $_POST['telefono'] != "") {
 
             // Guardamos en una variable el telefono
-            $telefono = $_POST['telefono'];
-
-            // Creamos la sentencia SQL
-            $update = "UPDATE cliente SET telefono='$telefono' WHERE dni='$dniActual'";
-
-            // La ejecutamos en el servidor
-            $conexion->exec($update);
+            $_SESSION['telefono'] = $_POST['telefono'];
         } 
+        
+        $update = "UPDATE cliente SET ";
+        $update .= "dni = " . $_SESSION['dni'];
+        $update .= ", nombre = " . $_SESSION['nombre'];
+        $update .= ", direccion = " . $_SESSION['direccion'];
+        $update .= ", telefono = " . $_SESSION['telefono'];
+        $update .= " WHERE dni='$dniActual'";
+        
+        $conexion->exec($update);
 
         // Refrescamos la pagina para actualizar la informacion.
         header("refresh: 0;");

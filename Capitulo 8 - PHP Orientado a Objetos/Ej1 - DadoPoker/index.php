@@ -43,6 +43,8 @@ if (isset($_POST["crea"])) {
             <form action="index.php" method="post">
                 <input type="submit" name="crea" value="Crear Dado">
             </form>
+        
+        
             <?php
         } else { // Si tenemos el dado ya creado, mostramos el boton para lanzarlo
             ?>
@@ -50,7 +52,7 @@ if (isset($_POST["crea"])) {
                 <input type="submit" name="tira" value="Tira el Dado">
             </form>   
         <?php
-        }
+        } // Fin del else
         
         // Si pulsamos tirar el dado
         if (isset($_POST['tira'])) {
@@ -71,12 +73,11 @@ if (isset($_POST["crea"])) {
             // Ahora mostramos en HTML los resultados
             ?>
         
-        <p>Figura: <?=$figura?></p>
-        <p>Tiradas Totales: <?=$tiradas?></p>
+            <p>Figura: <?=$figura?></p>
+            <p>Tiradas Totales: <?=$tiradas?></p>
         
             <?php
-        
-        }
+        } // Fin del if
         ?>
     </body>
 </html>

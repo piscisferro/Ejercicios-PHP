@@ -19,7 +19,7 @@ abstract class Animal {
     // Funcion que devuelve que es un animal
     public function hablameDeTi() {
         
-        return "soy un Animal";
+        return "soy un Animal y soy " . $this->sexo;
         
     }
     

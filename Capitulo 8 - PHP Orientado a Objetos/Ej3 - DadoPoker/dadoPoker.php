@@ -1,6 +1,7 @@
 <?php
 /**
- * Ejercicio 1
+ * Ejercicio 3
+ * 
  * Crea la clase DadoPoker. Las caras de un dado de poker tienen las siguientes figuras: As, K, Q, J,
  * 7 y 8 . Crea el método tira() que no hace otra cosa que tirar el dado, es decir, genera un valor
  * aleatorio para el objeto al que se le aplica el método. Crea también el método nombreFigura(), que

@@ -1,8 +1,8 @@
 <?php
 
-abstract class PizzeriaDB {
+abstract class blogDB {
   private static $server = 'localhost';
-  private static $db = 'pizzeria';
+  private static $db = 'blogEjercicio';
   private static $user = 'root';
   private static $password = '';
 

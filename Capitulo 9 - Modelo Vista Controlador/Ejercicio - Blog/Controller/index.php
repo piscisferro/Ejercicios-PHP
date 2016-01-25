@@ -1,8 +1,8 @@
 <?php
-  require_once '../Model/Oferta.php';
+  require_once '../Model/Articulo.php';
 
-  // Obtiene todas las ofertas
-  $data['ofertas'] = Oferta::getOfertas();
-
+  // Carga la vista principal
+  include '../View/principal.php';
+  
   // Carga la vista de listado
   include '../View/listado.php';

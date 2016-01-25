@@ -27,26 +27,32 @@ class Articulo {
         $this->tags = $tags;
     }
     
+    // Funcion getTitulo
     public function getTitulo() {
         return $this->titulo;
     }
     
+    // Funcion getArticulo
     public function getArticulo() {
         return $this->articulo;
     }
     
+    // Funcion getAutor
     public function getAutor() {
         return $this->autor;
     }
     
+    // Funcion getFecha
     public function getFecha() {
         return $this->fecha;
     }
     
+    // Funcion getTags
     public function getTags() {
         return $this->tags;
     }
     
+    // Funcion insert que inserta un nuevo objeto a la base de datos
     public function insert() {
         // Establecemos conexion con la BD
         $conexion = blogDB::ConnectDB();
@@ -62,14 +68,19 @@ class Articulo {
         $conexion->exec($insert);
     }
     
+    // Funcion delete que borra objeto a la base de datos
     public function delete() {
         // Establecemos conexion con la BD
         $conexion = blogDB::connectDB();
         
+        // Sentencia para borrar el objeto
         $borrado = "DELETE FROM articulos WHERE id=\"".$this->id."\"";
+        
+        // Ejecutamos la sentencia
         $conexion->exec($borrado);
     }
     
+    // Funcion estatica de clase para seleccionar todos los articulos de la tabla devuelve un array de objetos
     public static function getArticulos() {
     // Conectamos a la BD
     $conexion = blogDB::connectDB();
@@ -94,6 +105,7 @@ class Articulo {
     return $articulos;    
   }
   
+  // Funcion estatica de clase para seleccionar un articulo por su ID, devuelve un objeto
   public static function getArticuloById($id) {
     // Conectamos a la BD
     $conexion = blogDB::connectDB();

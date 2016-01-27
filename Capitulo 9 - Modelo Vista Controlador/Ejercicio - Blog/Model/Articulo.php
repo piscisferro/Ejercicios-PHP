@@ -18,13 +18,18 @@ class Articulo {
     private $fecha;
     
     // Funcion constructor que inicializa los atributos
-    public function __construct($titulo, $articulo, $autor, $fecha, $id=null, $tags = "") {
-        $this->id = $id;
+    public function __construct($titulo, $articulo, $autor, $fecha, $tags = "", $id = null) {
         $this->titulo = $titulo;
         $this->articulo = $articulo;
         $this->autor = $autor;
-        $this->fecha = $fecha;
         $this->tags = $tags;
+        $this->fecha = $fecha;
+        $this->id = $id;
+    }
+    
+    // Funcion getId
+    public function getId() {
+        return $this->id;
     }
     
     // Funcion getTitulo
@@ -57,12 +62,10 @@ class Articulo {
         // Establecemos conexion con la BD
         $conexion = blogDB::ConnectDB();
         
-        // Formateamos la fecha para su posterior insercion en SQL
-        $fechaSQL = "STR_TO_DATE($this->fecha, '%d-%m-%Y %H:%i')";
-        
         // Sentencia Insert
-        $insert = "INSERT INTO articulos (titulo, articulo, autor, fecha, tags) VALUES (\"" .
-          "$this->titulo\", \"$this->articulo\", \"$this->autor\", $fechaSQL, \"$this->tags\")";
+        $insert = "INSERT INTO articulos (titulo, articulo, autor, fecha, tags) VALUES (\"".
+          "$this->titulo\", \"$this->articulo\", \"$this->autor\", STR_TO_DATE(\"$this->fecha\", '%d-%m-%Y %H:%i'),".
+          "\"$this->tags\")";
         
         // Ejecutamos la sentencia
         $conexion->exec($insert);
@@ -86,7 +89,7 @@ class Articulo {
     $conexion = blogDB::connectDB();
     
     // Sentencia Select
-    $seleccion = "SELECT id, titulo, articulo, autor, fecha, tags FROM articulos";
+    $seleccion = "SELECT id, titulo, articulo, autor, fecha, tags FROM articulos ORDER BY fecha DESC";
     
     // Ejecutamos el Select con query (que devuelve los datos, exec solo devuelve filas afectadas)
     $consulta = $conexion->query($seleccion);
@@ -98,7 +101,7 @@ class Articulo {
     while ($registro = $consulta->fetchObject()) {
       // Creamos objetos y los metemos en el array articulos
       $articulos[] = new Articulo($registro->titulo, $registro->articulo, $registro->autor, 
-        $registro->fecha, $registro->id, $registro->tags);
+        $registro->fecha, $registro->tags, $registro->id);
     }
     
     // Devolvemos el array articulos
@@ -121,7 +124,7 @@ class Articulo {
     
     // Guardamos el articulo
     $articulos = new Articulo($registro->titulo, $registro->articulo, $registro->autor, 
-        $registro->fecha, $registro->id, $registro->tags);
+        $registro->fecha, $registro->tags, $registro->id);
        
     // Devolvemos el array articulos
     return $articulos;   

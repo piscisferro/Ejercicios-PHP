@@ -42,12 +42,6 @@ autor Juan Jose Fernandez Romero
                     </ul>
                 </nav>
             </header>
-            
-            <section class="articulos">
-            <?php
-            include "listado.php";
-            ?>
-            </section>
         </div>
     </body>
 </html>

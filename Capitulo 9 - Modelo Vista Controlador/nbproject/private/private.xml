@@ -4,7 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Alumno/Desktop/Daw%202/Desarrollo%20Web%20Entorno%20Servidor/Ejercicios-PHP/Capitulo%209%20-%20Modelo%20Vista%20Controlador/Ejercicio%20-%20Blog/Model/blogDB.php</file>
-            <file>file:/C:/Users/Alumno/Desktop/Daw%202/Desarrollo%20Web%20Entorno%20Servidor/Ejercicios-PHP/Capitulo%209%20-%20Modelo%20Vista%20Controlador/Ejercicio%20-%20Blog/View/principal.php</file>
+            <file>file:/C:/Users/Alumno/Desktop/Daw%202/Desarrollo%20Web%20Entorno%20Servidor/Ejercicios-PHP/Capitulo%209%20-%20Modelo%20Vista%20Controlador/Ejercicio%20-%20Blog/Model/Articulo.php</file>
+            <file>file:/C:/Users/Alumno/Desktop/Daw%202/Desarrollo%20Web%20Entorno%20Servidor/Ejercicios-PHP/Capitulo%209%20-%20Modelo%20Vista%20Controlador/Ejercicio%20-%20Blog/View/cabecera.php</file>
+            <file>file:/C:/Users/Alumno/Desktop/Daw%202/Desarrollo%20Web%20Entorno%20Servidor/Ejercicios-PHP/Capitulo%209%20-%20Modelo%20Vista%20Controlador/Ejercicio%20-%20Blog/Controller/addArticulo.php</file>
+            <file>file:/C:/Users/Alumno/Desktop/Daw%202/Desarrollo%20Web%20Entorno%20Servidor/Ejercicios-PHP/Capitulo%209%20-%20Modelo%20Vista%20Controlador/Ejercicio%20-%20Blog/View/listado.php</file>
+            <file>file:/C:/Users/Alumno/Desktop/Daw%202/Desarrollo%20Web%20Entorno%20Servidor/Ejercicios-PHP/Capitulo%209%20-%20Modelo%20Vista%20Controlador/Ejercicio%20-%20Blog/View/formAddArticulo.php</file>
+            <file>file:/C:/Users/Alumno/Desktop/Daw%202/Desarrollo%20Web%20Entorno%20Servidor/Ejercicios-PHP/Capitulo%209%20-%20Modelo%20Vista%20Controlador/Ejercicio%20-%20Blog/Controller/index.php</file>
+            <file>file:/C:/Users/Alumno/Desktop/Daw%202/Desarrollo%20Web%20Entorno%20Servidor/Ejercicios-PHP/Capitulo%209%20-%20Modelo%20Vista%20Controlador/Ejercicio%20-%20Blog/Controller/deleteArticulo.php</file>
         </group>
     </open-files>
 </project-private>

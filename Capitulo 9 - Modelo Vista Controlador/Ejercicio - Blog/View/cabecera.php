@@ -29,16 +29,19 @@ autor Juan Jose Fernandez Romero
 <html>
     <head>
         <meta charset="UTF-8">
+        <link type="text/css" rel="stylesheet" href="../View/css/style.css">
+        <link rel="stylesheet" type="text/css" href="../View/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../View/css/bootstrap-theme.min.css">
         <title>Mi Blog</title>
     </head>
     <body>
-        <div id="contenedor">
-            <header class="cabecera">
+        <div class="container">
+            <header class="header">
                 <h2 class="tituloHeader">Mi Blog</h2>
-                <nav>
-                    <ul>
-                        <a href="../Controller/index.php"><li>Principal</li></a>
-                        <a href="../View/formAddArticulo.php"><li>Añadir Post</li></a>
+                <nav class="navbar navbar-inverse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="../Controller/index.php">Principal</a></li>
+                        <li><a href="../Controller/addArticulo.php">Añadir Post</a></li>
                     </ul>
                 </nav>
             </header>

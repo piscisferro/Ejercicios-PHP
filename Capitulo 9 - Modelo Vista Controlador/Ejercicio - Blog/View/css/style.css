@@ -1,0 +1,104 @@
+body {
+    
+    background: -webkit-linear-gradient(left, rgb(50, 50, 50) 0%,rgb(200, 200, 200) 40%, rgb(200, 200, 200) 60%, rgb(50, 50, 50) 100%);
+    
+}
+
+.container {
+	
+    background: rgba(255, 255, 255, 0.85);
+    
+}
+
+.container-inverse {
+    
+    color: rgb(175, 175, 175)!important;
+    background: -webkit-linear-gradient(top, rgba(70, 70, 70, 0.90) 0%,rgba(0, 0, 0, 0.90) 90%);
+    padding-top: 25px;
+    padding-bottom: 25px;
+    
+}
+
+.inline {
+    
+    display: inline-block!important;
+    
+}
+
+.block {
+    
+    display: block!important;
+    
+}
+
+.submitLink {
+    display: inline-block;
+    background: none;
+    border: none; 
+    padding: 0;
+    color:#069;
+    text-decoration:underline;
+    cursor:pointer;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: rgb(175, 175, 175)!important;
+}
+
+.page-header {
+	
+    border-bottom: 1px solid rgb(200, 200, 200)!important;
+    
+}
+
+.article {
+    
+    margin-bottom: 50px;
+    
+}
+
+.article-title {
+    
+    margin-bottom: 0px!important;
+    padding-bottom: 2px!important;
+    border-bottom: none!important;
+    
+}
+
+.article-meta {
+    
+    color: grey;
+    margin-bottom: 15px;
+    
+}
+
+.article-body {
+    
+    font-size: 1.2em;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+    border-top: 1px solid rgb(200, 200, 200);
+    border-bottom: 1px solid rgb(200, 200, 200);
+    
+}
+
+.footer-meta {
+    
+    color: grey;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    
+}
+
+.autor {
+    
+    text-align: right;
+    
+}
+
+.form {
+	
+    margin-bottom: 50px;
+    
+}

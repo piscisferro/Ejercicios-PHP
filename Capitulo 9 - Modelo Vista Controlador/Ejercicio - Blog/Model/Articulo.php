@@ -14,15 +14,15 @@ class Articulo {
     private $titulo;
     private $articulo;
     private $autor;
-    private $tags;
+    private $categoria;
     private $fecha;
     
     // Funcion constructor que inicializa los atributos
-    public function __construct($titulo, $articulo, $autor, $fecha, $tags = "", $id = null) {
+    public function __construct($titulo, $articulo, $autor, $fecha, $categoria = "", $id = null) {
         $this->titulo = $titulo;
         $this->articulo = $articulo;
         $this->autor = $autor;
-        $this->tags = $tags;
+        $this->categoria = $categoria;
         $this->fecha = $fecha;
         $this->id = $id;
     }
@@ -52,9 +52,33 @@ class Articulo {
         return $this->fecha;
     }
     
-    // Funcion getTags
-    public function getTags() {
-        return $this->tags;
+    // Funcion getCategoria
+    public function getCategoria() {
+        return $this->categoria;
+    }
+    
+    public function setter($titulo="", $articulo="", $autor="", $fecha="", $categoria="") {
+        
+        if ($titulo !== "" && $titulo !== null) {
+            $this->titulo = $titulo;
+        }
+        
+        if ($articulo !== "" && $articulo !== null) {
+            $this->articulo = $articulo;
+        }
+        
+        if ($autor !== "" && $autor !== null) {
+            $this->autor = $autor;
+        }
+        
+        if ($fecha !== "" && $fecha !== null) {
+            $this->fecha = $fecha;
+        }
+        
+        if ($categoria !== "" && $categoria !== null) {
+            $this->categoria = $categoria;
+        }
+        
     }
     
     // Funcion insert que inserta un nuevo objeto a la base de datos
@@ -63,15 +87,15 @@ class Articulo {
         $conexion = blogDB::ConnectDB();
         
         // Sentencia Insert
-        $insert = "INSERT INTO articulos (titulo, articulo, autor, fecha, tags) VALUES (\"".
+        $insert = "INSERT INTO articulos (titulo, articulo, autor, fecha, categoria) VALUES (\"".
           "$this->titulo\", \"$this->articulo\", \"$this->autor\", STR_TO_DATE(\"$this->fecha\", '%d-%m-%Y %H:%i'),".
-          "\"$this->tags\")";
+          "\"$this->categoria\")";
         
         // Ejecutamos la sentencia
         $conexion->exec($insert);
     }
     
-    // Funcion delete que borra objeto a la base de datos
+    // Funcion delete que borra el objeto en la base de datos
     public function delete() {
         // Establecemos conexion con la BD
         $conexion = blogDB::connectDB();
@@ -83,13 +107,33 @@ class Articulo {
         $conexion->exec($borrado);
     }
     
+    // Funcion delete que modifica el objeto en la base de datos
+    public function update() {
+        // Establecemos conexion con la BD
+        $conexion = blogDB::connectDB();
+        
+        // Sentencia para modificar el objeto
+        $update = "UPDATE articulos SET titulo=\"$this->titulo\", articulo=\"$this->articulo\", autor=\"$this->autor\", fecha=STR_TO_DATE(\"$this->fecha\", '%d-%m-%Y %H:%i'), categoria=\"$this->categoria\"  WHERE id=\"$this->id\"";
+        
+        // Ejecutamos la sentencia
+        $return = $conexion->query($update);
+    }
+    
     // Funcion estatica de clase para seleccionar todos los articulos de la tabla devuelve un array de objetos
-    public static function getArticulos() {
+    public static function getArticulos($filtro, $valor) {
+        
     // Conectamos a la BD
     $conexion = blogDB::connectDB();
     
-    // Sentencia Select
-    $seleccion = "SELECT id, titulo, articulo, autor, fecha, tags FROM articulos ORDER BY fecha DESC";
+    // Si Categoria viene vacia
+    if ($filtro !== "" && $valor !== "") {
+        // Sentencia Select
+        $seleccion = "SELECT id, titulo, articulo, autor, fecha, categoria FROM articulos WHERE $filtro LIKE '%$valor%' ORDER BY fecha DESC";
+        
+    } else {
+        // Sentencia Select
+        $seleccion = "SELECT id, titulo, articulo, autor, fecha, categoria FROM articulos ORDER BY fecha DESC";
+    }
     
     // Ejecutamos el Select con query (que devuelve los datos, exec solo devuelve filas afectadas)
     $consulta = $conexion->query($seleccion);
@@ -101,7 +145,7 @@ class Articulo {
     while ($registro = $consulta->fetchObject()) {
       // Creamos objetos y los metemos en el array articulos
       $articulos[] = new Articulo($registro->titulo, $registro->articulo, $registro->autor, 
-        $registro->fecha, $registro->tags, $registro->id);
+        $registro->fecha, $registro->categoria, $registro->id);
     }
     
     // Devolvemos el array articulos
@@ -114,7 +158,7 @@ class Articulo {
     $conexion = blogDB::connectDB();
     
     // Sentencia Select
-    $seleccion = "SELECT id, titulo, articulo, autor, fecha, tags FROM articulos WHERE id=$id";
+    $seleccion = "SELECT id, titulo, articulo, autor, fecha, categoria FROM articulos WHERE id=$id";
     
     // Ejecutamos la sentencia SELECT
     $consulta = $conexion->query($seleccion);
@@ -124,7 +168,7 @@ class Articulo {
     
     // Guardamos el articulo
     $articulos = new Articulo($registro->titulo, $registro->articulo, $registro->autor, 
-        $registro->fecha, $registro->tags, $registro->id);
+        $registro->fecha, $registro->categoria, $registro->id);
        
     // Devolvemos el array articulos
     return $articulos;   

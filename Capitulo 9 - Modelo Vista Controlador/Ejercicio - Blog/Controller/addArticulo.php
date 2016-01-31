@@ -4,7 +4,7 @@ require '../Model/Articulo.php';
 if (isset($_POST["addArticulo"])) {
     
     $fecha = date('d-m-Y H:i');
-    $articulo = new Articulo($_POST["tituloAdd"], $_POST["descripcionAdd"], $_POST["autorAdd"], $fecha, $_POST["tagsAdd"]);
+    $articulo = new Articulo($_POST["tituloAdd"], $_POST["descripcionAdd"], $_POST["autorAdd"], $fecha, $_POST["categoriaAdd"]);
     
     $articulo->insert();
     
@@ -12,11 +12,14 @@ if (isset($_POST["addArticulo"])) {
     
 } else {
     
-    ?>
-<p class="error"> Se ha producido un error sera redirigido a la pagina anterior en 5 segundos</p>
-<?php
+    // Carga la cabecera
+    include '../View/cabecera.php';
 
-    header("refresh:4;url=../View/formAddArticulo.php");
+    // Carga el Formulario
+    include '../View/formAddArticulo.php';
+    
+    // Carga el pie de pagina
+    include '../View/piedepagina.php';
 
 }
 

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block contenido %}
+{% for articulo in articulos %}
+    <div class="container">
+        <div class="article"> 
+            <h2 class="page-header article-title">{{ articulo.titulo }}</h2>
+            <div class="article-meta">
+                Escrito por: 
+                    <form class="inline" action="../Controller/index.php" method="post">
+                        <input class="submitLink" type="submit" value="{{ articulo.autor }}">
+                        <input type="hidden" name="filtro" value="autor">
+                        <input type="hidden" name="filtroValor" value="{{ articulo.autor }}">
+                    </form>
+                en {{ articulo.fecha }}
+            </div>
+            <article class="article-body">{{ articulo.articulo }}</article>
+            <footer class="">
+                <div class="footer-meta">Categoria: 
+                    <form class="inline" action="../Controller/index.php" method="post">
+                        <input class="submitLink" type="submit" value="{{ articulo.categoria }}">
+                        <input type="hidden" name="filtro" value="categoria">
+                        <input type="hidden" name="filtroValor" value="{{ articulo.categoria }}">
+                    </form>
+                </div>
+
+                <form class="inline" action="../Controller/updateArticulo.php" method="post">
+                    <input class="btn btn-primary" type="submit" value="Actualizar">
+                    <input type="hidden" name="updateId" value="{{ articulo.id }}">
+                    <input type="hidden" name="updateTitulo" value="{{ articulo.titulo }}">
+                    <input type="hidden" name="updateArticulo" value="{{ articulo.articulo }}">
+                    <input type="hidden" name="updateCategoria" value="{{ articulo.categoria }}">
+                    <input type="hidden" name="updateAutor" value="{{ articulo.autor }}">
+                </form>
+                <form class="inline" action="../Controller/deleteArticulo.php" method="post">
+                    <input class="btn btn-danger" type="submit" name="borrarArticulo" value="Borrar">
+                    <input type="hidden" name="deleteId" value="{{ articulo.id }}">
+                </form>
+            </footer>
+        </div>
+    </div>
+{% endfor %}
+{% endblock contenido %}

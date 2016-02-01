@@ -21,6 +21,7 @@
                         <input type="hidden" name="filtro" value="categoria">
                         <input type="hidden" name="filtroValor" value="{{ articulo.categoria }}">
                     </form>
+                    {%if articulo.editado == 1 %}<span class="article-edit">Ultima Edicion: {{ articulo.fechaEdicion }}</span>{%endif%}
                 </div>
 
                 <form class="inline" action="../Controller/updateArticulo.php" method="post">

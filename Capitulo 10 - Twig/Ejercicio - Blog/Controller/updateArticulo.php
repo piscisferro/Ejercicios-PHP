@@ -15,7 +15,7 @@ if (isset($_POST["update"])) {
     $articulo = Articulo::getArticuloById($_POST["idUpdate"]);
     
     // Recogemos la fecha y hora actual con formato
-    $fecha = date('d-m-Y H:i');
+    $fecha = date('d-m-Y H:i:s');
     
     // Modificamos los atributos del objeto articulo que extrajimos anteriormente
     $articulo->setter($_POST["tituloUpdate"], $_POST["descripcionUpdate"], $_POST["autorUpdate"], $fecha, $_POST["categoriaUpdate"]);

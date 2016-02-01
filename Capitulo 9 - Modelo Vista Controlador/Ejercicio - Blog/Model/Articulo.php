@@ -16,15 +16,20 @@ class Articulo {
     private $autor;
     private $categoria;
     private $fecha;
+    private $fechaEdicion;
+    private $editado;
     
     // Funcion constructor que inicializa los atributos
-    public function __construct($titulo, $articulo, $autor, $fecha, $categoria = "", $id = null) {
+    public function __construct($titulo, $articulo, $autor, $fecha, $categoria = "", $id = null, $editado = false, $fechaEdicion = null) {
         $this->titulo = $titulo;
         $this->articulo = $articulo;
         $this->autor = $autor;
         $this->categoria = $categoria;
         $this->fecha = $fecha;
         $this->id = $id;
+        $this->fechaEdicion = $fechaEdicion;
+        $this->editado = $editado;
+        
     }
     
     // Funcion getId
@@ -57,24 +62,40 @@ class Articulo {
         return $this->categoria;
     }
     
+    public function getFechaEdicion() {
+        return $this->fechaEdicion;
+    }
+
+    public function getEditado() {
+        return $this->editado;
+    }
+
+        
+    // Funcion setter para modificar todos los atributos. En caso de que haya alguno que no se quiera
+    // modificar simplemente se deja en blanco con comillas
     public function setter($titulo="", $articulo="", $autor="", $fecha="", $categoria="") {
         
+        // Si el titulo no esta vacio ni es nulo, se lo asignamos como atributo
         if ($titulo !== "" && $titulo !== null) {
             $this->titulo = $titulo;
         }
         
+        // Si el articulo no esta vacio ni es nulo, se lo asignamos como atributo
         if ($articulo !== "" && $articulo !== null) {
             $this->articulo = $articulo;
         }
         
+        // Si el autor no esta vacio ni es nulo, se lo asignamos como atributo
         if ($autor !== "" && $autor !== null) {
             $this->autor = $autor;
         }
         
+        // Si el titulo no esta vacio ni es nulo, se lo asignamos como atributo
         if ($fecha !== "" && $fecha !== null) {
             $this->fecha = $fecha;
         }
         
+        // Si la categoria no esta vacio ni es nulo, se lo asignamos como atributo
         if ($categoria !== "" && $categoria !== null) {
             $this->categoria = $categoria;
         }
@@ -88,7 +109,7 @@ class Articulo {
         
         // Sentencia Insert
         $insert = "INSERT INTO articulos (titulo, articulo, autor, fecha, categoria) VALUES (\"".
-          "$this->titulo\", \"$this->articulo\", \"$this->autor\", STR_TO_DATE(\"$this->fecha\", '%d-%m-%Y %H:%i'),".
+          "$this->titulo\", \"$this->articulo\", \"$this->autor\", STR_TO_DATE(\"$this->fecha\", '%d-%m-%Y %H:%i:%s'),".
           "\"$this->categoria\")";
         
         // Ejecutamos la sentencia
@@ -113,7 +134,7 @@ class Articulo {
         $conexion = blogDB::connectDB();
         
         // Sentencia para modificar el objeto
-        $update = "UPDATE articulos SET titulo=\"$this->titulo\", articulo=\"$this->articulo\", autor=\"$this->autor\", fecha=STR_TO_DATE(\"$this->fecha\", '%d-%m-%Y %H:%i'), categoria=\"$this->categoria\"  WHERE id=\"$this->id\"";
+        $update = "UPDATE articulos SET titulo=\"$this->titulo\", articulo=\"$this->articulo\", autor=\"$this->autor\", fechaEdicion=STR_TO_DATE(\"$this->fecha\", '%d-%m-%Y %H:%i:%s'), categoria=\"$this->categoria\", editado=true  WHERE id=\"$this->id\"";
         
         // Ejecutamos la sentencia
         $return = $conexion->query($update);
@@ -128,11 +149,11 @@ class Articulo {
     // Si Categoria viene vacia
     if ($filtro !== "" && $valor !== "") {
         // Sentencia Select
-        $seleccion = "SELECT id, titulo, articulo, autor, fecha, categoria FROM articulos WHERE $filtro LIKE '%$valor%' ORDER BY fecha DESC";
+        $seleccion = "SELECT * FROM articulos WHERE $filtro LIKE '%$valor%' ORDER BY fecha DESC";
         
     } else {
         // Sentencia Select
-        $seleccion = "SELECT id, titulo, articulo, autor, fecha, categoria FROM articulos ORDER BY fecha DESC";
+        $seleccion = "SELECT * FROM articulos ORDER BY fecha DESC";
     }
     
     // Ejecutamos el Select con query (que devuelve los datos, exec solo devuelve filas afectadas)
@@ -145,7 +166,7 @@ class Articulo {
     while ($registro = $consulta->fetchObject()) {
       // Creamos objetos y los metemos en el array articulos
       $articulos[] = new Articulo($registro->titulo, $registro->articulo, $registro->autor, 
-        $registro->fecha, $registro->categoria, $registro->id);
+        $registro->fecha, $registro->categoria, $registro->id, $registro->editado, $registro->fechaEdicion);
     }
     
     // Devolvemos el array articulos

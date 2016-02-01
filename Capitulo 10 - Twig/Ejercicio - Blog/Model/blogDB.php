@@ -3,7 +3,7 @@
 abstract class blogDB {
     // Atributos estaticos con la informacion de la conexion
     private static $server = 'localhost';
-    private static $db = 'blogEjercicio';
+    private static $db = 'blogejercicio';
     private static $user = 'root';
     private static $password = '';
 

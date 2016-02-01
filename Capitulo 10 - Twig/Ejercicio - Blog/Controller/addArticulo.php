@@ -12,7 +12,7 @@ $twig = new Twig_Environment($loader);
 if (isset($_POST["addArticulo"])) {
     
     // Guardamos la fecha actual con formato
-    $fecha = date('d-m-Y H:i');
+    $fecha = date('d-m-Y H:i:s');
     // Creamos un nuevo objeto con la informacion del formulario
     $articulo = new Articulo($_POST["tituloAdd"], $_POST["descripcionAdd"], $_POST["autorAdd"], $fecha, $_POST["categoriaAdd"]);
     

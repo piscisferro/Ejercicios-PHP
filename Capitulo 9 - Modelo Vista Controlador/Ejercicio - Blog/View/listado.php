@@ -36,8 +36,9 @@ foreach ($data["articulos"] as $articulo) {
                     <input type="hidden" name="filtro" value="categoria">
                     <input type="hidden" name="filtroValor" value="<?=$articulo->getCategoria()?>">
                 </form>
+            <?php if ($articulo->getEditado() == 1) { ?> <span class="article-edit">Ultima Edicion: <?=$articulo->getFechaEdicion()?></span> <?php } ?>
             </div>
-        
+            
             <form class="inline" action="../Controller/updateArticulo.php" method="post">
                 <input class="btn btn-primary" type="submit" value="Actualizar">
                 <input type="hidden" name="updateId" value="<?=$articulo->getId()?>">

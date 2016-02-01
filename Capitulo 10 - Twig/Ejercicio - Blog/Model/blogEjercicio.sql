@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-01-2016 a las 11:05:46
+-- Tiempo de generación: 01-02-2016 a las 09:58:15
 -- Versión del servidor: 5.6.21
 -- Versión de PHP: 5.6.3
 
@@ -17,12 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `blogEjercicio`
+-- Base de datos: `blogejercicio`
 --
-
-CREATE DATABASE IF NOT EXISTS blogEjercicio;
-
-USE blogEjercicio;
+CREATE DATABASE IF NOT EXISTS `blogejercicio` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `blogejercicio`;
 
 -- --------------------------------------------------------
 
@@ -36,8 +34,20 @@ CREATE TABLE IF NOT EXISTS `articulos` (
   `articulo` text COLLATE utf8_bin NOT NULL,
   `autor` varchar(50) COLLATE utf8_bin NOT NULL,
   `fecha` datetime NOT NULL,
-  `tags` varchar(200) COLLATE utf8_bin DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `categoria` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `editado` tinyint(1) DEFAULT '0',
+  `fechaEdicion` datetime DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `articulos`
+--
+
+INSERT INTO `articulos` (`id`, `titulo`, `articulo`, `autor`, `fecha`, `categoria`, `editado`, `fechaEdicion`) VALUES
+(1, 'Hola Mundo', '¡Hola Mundo!', 'yo', '2016-02-01 09:04:00', 'Bienvenida', 0, NULL),
+(2, 'Prueba', 'Prueba', 'yo', '2016-02-01 09:05:00', 'Prueba', 0, NULL),
+(3, 'Prueba 2', 'Prueba 2', 'yo no', '2016-02-01 09:07:00', 'Prueba', 0, NULL),
+(4, 'Random', 'Post Random', 'yo no', '2016-02-01 09:08:53', 'random', 1, '2016-02-01 09:35:05');
 
 --
 -- Índices para tablas volcadas
@@ -57,7 +67,7 @@ ALTER TABLE `articulos`
 -- AUTO_INCREMENT de la tabla `articulos`
 --
 ALTER TABLE `articulos`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

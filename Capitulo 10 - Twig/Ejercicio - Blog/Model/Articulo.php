@@ -149,7 +149,7 @@ class Articulo {
     // Si Categoria viene vacia
     if ($filtro !== "" && $valor !== "") {
         // Sentencia Select
-        $seleccion = "SELECT * FROM articulos WHERE $filtro LIKE '%$valor%' ORDER BY fecha DESC";
+        $seleccion = "SELECT * FROM articulos WHERE $filtro LIKE '$valor' ORDER BY fecha DESC";
         
     } else {
         // Sentencia Select
